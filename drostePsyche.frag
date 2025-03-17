@@ -76,7 +76,7 @@ vec3 color(vec2 z, float r1, float r2){
 	z = droste(z, r1, r2);
 	// Draw anything you want below!
     z = 10.0*sin(z*(5.0+u_time*50.0))*(u_time*10.0);
-    return vec3(z.x*z.y);
+    return vec3(z.x*z.y) * vec3(1.0, 0.0, 0.0);
 }
 
 void main(){
