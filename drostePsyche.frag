@@ -4,7 +4,7 @@ precision highp int;
 out vec4 fragColor;
 uniform float u_time;
 uniform vec2 u_resolution;
-float r1 = 5.0;
+float r1 = 8.0;
 float r2 = 85.0;
 float thick = 0.01;
 const float PI = 3.1415926;
@@ -62,6 +62,7 @@ vec2 cDiv(vec2 z, vec2 w){
 }
 
 vec2 droste(vec2 z, float r1, float r2) {
+    //r1 = u_time + r2;
     z = cLog(z); 
     float scale = log(r2/r1);
     float angle = atan(scale/(2.0*PI));
@@ -72,11 +73,19 @@ vec2 droste(vec2 z, float r1, float r2) {
     return z;
 }
 
+vec3 texture(vec2 z){
+    // chnage here to move
+    float u = 3.0 + 0.01*sin(u_time);
+    z = 10.0*sin(z*(5.0+u*50.0))*(u*10.0);
+    //return vec3(z.x*z.y);
+
+    return vec3(z.x, 30.0*z.y, 30.0*sin(z.x));
+
+}
+
 vec3 color(vec2 z, float r1, float r2){
 	z = droste(z, r1, r2);
-	// Draw anything you want below!
-    z = 10.0*sin(z*(5.0+u_time*50.0))*(u_time*10.0);
-    return vec3(z.x*z.y) * vec3(1.0, 0.0, 0.0);
+    return texture(z);
 }
 
 void main(){
