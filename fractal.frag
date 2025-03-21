@@ -16,7 +16,7 @@ vec3 tile(vec2 p){
 
 vec2 fold(vec2 p, float ang){
     vec2 n=vec2(cos(-ang),sin(-ang));
-    p-=2.*min(0.,dot(p,n))*n;
+    p-= 2.*min(0.,dot(p,n))*n;
 	return p;
 }
 
@@ -34,16 +34,26 @@ vec2 koch_fold(vec2 pt) {
     return pt;
 }
 
-vec3 color(vec2 pt) {
-    pt=pt*2.;
-    pt = koch_fold(pt);
-    return vec3(d2hline(pt));
+vec2 koch_curve(vec2 pt, int n){
+    for(int i=0; i<n; i++){
+        pt *= 3.;
+        pt.x -= 1.5;
+        pt = koch_fold(pt);
+    }
+    return pt;
+}
+
+vec3 color(vec2 pt, int n) {
+    pt=pt*.5+.5;
+    pt = koch_curve(pt, n);
+    return vec3(d2hline(pt)/float(n));
 }
 
 void main(){
     vec2 p = gl_FragCoord.xy / u_resolution.xy;
-    p.y -= 0.5;
+    int n = 5;
+    p.y -= 0.85;
     p.x -= 0.5;
-    p *= 10.0;
-    fragColor = vec4(color(p), 1.0);
+    p *= 3.5;
+    fragColor = vec4(color(p, n), 1.0);
 }
