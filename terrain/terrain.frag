@@ -23,12 +23,12 @@ vec3 rotZ(vec3 p, float t){
 }
 
 float terrain(vec2 p){
-    float power = -pow(p.x,2.)-pow(p.y-1000., 2.);
-    return 200.*exp(power/0.001);
+    float power = -pow(p.x,2.)-pow(p.y-100., 2.);
+    return 20.*exp(power/0.001);
 }
 
 bool castRay(in vec3 ro, in vec3 rd, out float resT){
-    float dt = 0.0005;
+    float dt = 0.005;
     float minT = 0.001;
     float maxT = 10.0;
 
@@ -63,18 +63,18 @@ void main(){
     float t = -0.5*PI * (u_mouse.y /u_resolution.y);
     vec2 pos = gl_FragCoord.xy / u_resolution.xy;
     pos -= 0.5;
-    float resolution = 500.;
+    float resolution = 50.;
     pos *= resolution;
 
-    vec3 origin = vec3(.0, 100.0, 0.0);
-    vec3 target = vec3(0.0, 100.0, -5.0);
+    vec3 origin = vec3(.0, 6.0, -1.0);
+    vec3 target = vec3(0.0, .0, 0.0);
 
     vec3 cz = normalize(target - origin);
     vec3 cx = cross(cz, vec3(0., 1.0, .0));
     vec3 cy = cross(cx, cz);
 
     float targetDepth = 1.0;
-    vec3 ray = pos.y *cy + targetDepth*cz + pos.x*cx;
+    vec3 ray = normalize(pos.y *cy + targetDepth*cz + pos.x*cx);
 
     float resT;
 
