@@ -6,6 +6,8 @@ uniform float u_time;
 uniform vec2 u_resolution;
 int channel;
 
+#define rot(a) mat2(cos(a),sin(a),-sin(a),cos(a))
+
 //start hash
 uvec3 k = uvec3(0x456789abu, 0x6789ab45u, 0x89ab4567u);
 uvec3 u = uvec3(1, 2, 3);
@@ -186,8 +188,11 @@ float fbm21(vec2 p, float g){
 
 void main(){
     vec2 pos = gl_FragCoord.xy/min(u_resolution.x, u_resolution.y);
-    channel = int(2.0 * gl_FragCoord.x / u_resolution.x);
-    pos = 10.0 * pos + u_time;
-    float g = abs(mod(0.2 * u_time, 2.0) - 1.0);
-    fragColor = vec4(vec3(fbm21(pos, 1.0)), 1.0);
+    channel = 1;
+    pos = 10.0 * pos;
+    float u = abs(cos(u_time)) + 0.5;
+    float v_x = 0.6*u*fbm21(pos, 1.0+2.0*min(0.8, sin(1.6*u)));
+    float v_y = 0.5*u*fbm21(pos, 0.5*min(0.8, cos(u*0.1)));
+    float v_z = 1.9*u*fbm21(pos, 10.*min(.8, cos(u*2.2+1.5)));
+    fragColor = vec4(2.5*vec3(v_x, v_y, v_z), 1.0);
 }
