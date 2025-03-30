@@ -168,7 +168,7 @@ float pnoise31(vec3 p){
 //end pnoise
 
 float base21(vec2 p){
-    return channel==0 ? vnoise21(p) - 0.5 : pnoise21(p) - 0.5;
+    return pnoise21(p) - 0.5;
 }
 
 float fbm21(vec2 p, float g){

@@ -51,7 +51,7 @@ vec3 color(vec2 pt, int n) {
 
 void main(){
     vec2 p = gl_FragCoord.xy / u_resolution.xy;
-    int n = 5;
+    int n = 6;
     p.y -= 0.85;
     p.x -= 0.5;
     p *= 3.5;
